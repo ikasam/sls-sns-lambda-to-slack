@@ -20,4 +20,4 @@ var/
 .serverless
 
 # config
-config.json
+config.*.json

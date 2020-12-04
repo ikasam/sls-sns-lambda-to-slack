@@ -46,7 +46,7 @@ provider:
 
 # you can define service wide environment variables here
   environment:
-    WEBHOOK_URL: ${file(./config.json):WEBHOOK_URL}
+    WEBHOOK_URL: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):WEBHOOK_URL}
 
 # you can add packaging information here
 #package:
