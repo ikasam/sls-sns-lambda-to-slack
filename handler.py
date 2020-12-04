@@ -6,7 +6,7 @@ http = urllib3.PoolManager()
 
 
 def invoke(event, context):
-    message = event['message']
+    message = event['Records'][0]['Sns']['Message']
     payload = json.dumps({'text': message})
     url = os.environ["WEBHOOK_URL"]
     resp = http.request('POST', url, body=payload)
