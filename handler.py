@@ -1,24 +1,20 @@
 import json
+import urllib3
+import os
+
+http = urllib3.PoolManager()
 
 
-def hello(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
-    }
+def invoke(event, context):
+    message = event['message']
+    payload = json.dumps({'text': message})
+    url = os.environ["WEBHOOK_URL"]
+    resp = http.request('POST', url, body=payload)
+    print({
+        "url": url,
+        "payload": payload,
+        "status_code": resp.status,
+        "response": resp.data
+    })
 
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
-    }
-
-    return response
-
-    # Use this code if you don't use the http event with the LAMBDA-PROXY
-    # integration
-    """
-    return {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "event": event
-    }
-    """
+    return payload
