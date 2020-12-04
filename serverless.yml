@@ -60,6 +60,10 @@ provider:
 functions:
   post-to-slack:
     handler: handler.invoke
+    events:
+      - sns:
+          arn: !Ref snsTopic
+          topicName: snsTopic
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -101,13 +105,11 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
+resources:
+  Resources:
+    snsTopic:
+      Type: AWS::SNS::Topic
+  Outputs:
+    snsTopicArn:
+      Description: "ARN of SNS Topic"
+      Value: !Ref snsTopic
